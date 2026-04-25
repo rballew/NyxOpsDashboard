@@ -1,8 +1,8 @@
-\# NyxOpsDashboard
+\# # NyxOpsDashboard
 
 
 
-NyxOpsDashboard is a C# console application for tracking operational tasks. It allows users to add, view, complete, delete, search, and prioritize tasks.
+NyxOpsDashboard is a C# console application for tracking operational tasks. It allows users to add, view, complete, delete, search, edit, prioritize, and save tasks.
 
 
 
@@ -10,7 +10,7 @@ NyxOpsDashboard is a C# console application for tracking operational tasks. It a
 
 
 
-\- Add tasks with title, notes, and priority
+\- Add tasks with title, notes, priority, and due date
 
 \- View all saved tasks
 
@@ -19,6 +19,12 @@ NyxOpsDashboard is a C# console application for tracking operational tasks. It a
 \- Delete tasks
 
 \- Search tasks by title, notes, or priority
+
+\- Edit existing tasks
+
+\- Update task title, notes, priority, and due date
+
+\- Clear notes or due dates when editing
 
 \- Save and load tasks using a local JSON file
 
@@ -44,21 +50,27 @@ NyxOpsDashboard is a C# console application for tracking operational tasks. It a
 
 
 
-This project was built as a portfolio application to practice real-world programming skills, including working with lists, classes, user input, file storage, search/filter logic, and Git commits.
+This project was built as a portfolio application to practice real-world programming skills, including working with classes, lists, user input, file storage, search/filter logic, editing records, data validation, and Git commits.
 
 
 
-\## Future Improvements
+\## Current Menu
 
 
 
-\- Add due dates
+```text
 
-\- Add task categories
+1\. Add task
 
-\- Add edit task feature
+2\. View tasks
 
-\- Add sorting by priority
+3\. Complete task
 
-\- Convert to a web dashboard later
+4\. Delete task
+
+5\. Search tasks
+
+6\. Edit task
+
+7\. Exit
 
