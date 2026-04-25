@@ -205,7 +205,17 @@ static List<TaskItem> LoadTasks()
 
     List<TaskItem>? savedTasks = JsonSerializer.Deserialize<List<TaskItem>>(json);
 
-    return savedTasks ?? new List<TaskItem>();
+if (savedTasks is null)
+{
+    return new List<TaskItem>();
+}
+
+foreach (TaskItem task in savedTasks)
+{
+    task.Priority = NormalizePriority(task.Priority);
+}
+
+return savedTasks;
 }
 
 static void SaveTasks(List<TaskItem> tasks)
