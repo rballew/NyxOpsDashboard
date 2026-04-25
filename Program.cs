@@ -15,7 +15,8 @@ while (true)
     Console.WriteLine("2. View tasks");
     Console.WriteLine("3. Complete task");
     Console.WriteLine("4. Delete task");
-    Console.WriteLine("5. Exit");
+Console.WriteLine("5. Search tasks");
+Console.WriteLine("6. Exit");
     Console.Write("Choose an option: ");
 
     string? choice = Console.ReadLine();
@@ -133,15 +134,59 @@ while (true)
             Console.WriteLine("Please enter a valid number.");
         }
     }
-    else if (choice == "5")
+   else if (choice == "5")
+{
+    Console.Write("Enter search keyword: ");
+    string? keyword = Console.ReadLine();
+
+    if (string.IsNullOrWhiteSpace(keyword))
     {
-        Console.WriteLine("Goodbye.");
-        break;
+        Console.WriteLine("Search keyword cannot be empty.");
     }
     else
     {
-        Console.WriteLine("Invalid choice. Try again.");
+        List<TaskItem> results = tasks
+            .Where(task =>
+                task.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase) ||
+                (!string.IsNullOrWhiteSpace(task.Notes) &&
+                 task.Notes.Contains(keyword, StringComparison.OrdinalIgnoreCase)) ||
+                task.Priority.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        Console.WriteLine();
+        Console.WriteLine("Search Results:");
+
+        if (results.Count == 0)
+        {
+            Console.WriteLine("No matching tasks found.");
+        }
+        else
+        {
+            foreach (TaskItem task in results)
+            {
+                string status = task.IsComplete ? "Complete" : "Open";
+
+                Console.WriteLine($"{task.Id}. [{status}] [{task.Priority}] {task.Title}");
+
+                if (!string.IsNullOrWhiteSpace(task.Notes))
+                {
+                    Console.WriteLine($"   Notes: {task.Notes}");
+                }
+
+                Console.WriteLine($"   Created: {task.CreatedAt}");
+            }
+        }
     }
+}
+else if (choice == "6")
+{
+    Console.WriteLine("Goodbye.");
+    break;
+}
+else
+{
+    Console.WriteLine("Invalid choice. Try again.");
+}
 }
 
 static List<TaskItem> LoadTasks()
