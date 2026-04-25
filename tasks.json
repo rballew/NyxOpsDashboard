@@ -4,6 +4,7 @@
     "Title": "task",
     "Notes": "task task",
     "Priority": "Medium",
+    "DueDate": null,
     "IsComplete": false,
     "CreatedAt": "2026-04-24T17:17:41.6641864-07:00"
   },
@@ -11,7 +12,8 @@
     "Id": 2,
     "Title": "urgent task",
     "Notes": "task",
-    "Priority": "urgent",
+    "Priority": "Urgent",
+    "DueDate": null,
     "IsComplete": false,
     "CreatedAt": "2026-04-24T17:34:55.4846423-07:00"
   },
@@ -20,7 +22,17 @@
     "Title": "Pickle",
     "Notes": "irish",
     "Priority": "Urgent",
+    "DueDate": null,
     "IsComplete": false,
     "CreatedAt": "2026-04-24T17:59:40.4340951-07:00"
+  },
+  {
+    "Id": 4,
+    "Title": "4/30/2026",
+    "Notes": "123",
+    "Priority": "Medium",
+    "DueDate": "2026-04-30T00:00:00",
+    "IsComplete": false,
+    "CreatedAt": "2026-04-24T18:22:25.0065776-07:00"
   }
 ]

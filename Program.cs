@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 
 const string FileName = "tasks.json";
@@ -15,8 +16,8 @@ while (true)
     Console.WriteLine("2. View tasks");
     Console.WriteLine("3. Complete task");
     Console.WriteLine("4. Delete task");
-Console.WriteLine("5. Search tasks");
-Console.WriteLine("6. Exit");
+    Console.WriteLine("5. Search tasks");
+    Console.WriteLine("6. Exit");
     Console.Write("Choose an option: ");
 
     string? choice = Console.ReadLine();
@@ -32,19 +33,25 @@ Console.WriteLine("6. Exit");
         Console.Write("Enter priority (Low, Medium, High, Urgent): ");
         string? priority = Console.ReadLine();
 
-       priority = NormalizePriority(priority);
+        priority = NormalizePriority(priority);
+
+        Console.Write("Enter due date (MM/DD/YYYY) or leave blank: ");
+        string? dueDateInput = Console.ReadLine();
+
+        DateTime? dueDate = ParseDueDate(dueDateInput);
 
         if (!string.IsNullOrWhiteSpace(title))
         {
             TaskItem newTask = new TaskItem
-{
-    Id = tasks.Count == 0 ? 1 : tasks.Max(task => task.Id) + 1,
-    Title = title,
-    Notes = notes,
-    Priority = priority,
-    IsComplete = false,
-    CreatedAt = DateTime.Now
-};
+            {
+                Id = tasks.Count == 0 ? 1 : tasks.Max(task => task.Id) + 1,
+                Title = title,
+                Notes = notes,
+                Priority = priority,
+                DueDate = dueDate,
+                IsComplete = false,
+                CreatedAt = DateTime.Now
+            };
 
             tasks.Add(newTask);
             SaveTasks(tasks);
@@ -69,16 +76,7 @@ Console.WriteLine("6. Exit");
         {
             foreach (TaskItem task in tasks)
             {
-                string status = task.IsComplete ? "Complete" : "Open";
-
-                Console.WriteLine($"{task.Id}. [{status}] [{task.Priority}] {task.Title}");
-
-                if (!string.IsNullOrWhiteSpace(task.Notes))
-                {
-                    Console.WriteLine($"   Notes: {task.Notes}");
-                }
-
-                Console.WriteLine($"   Created: {task.CreatedAt}");
+                PrintTask(task);
             }
         }
     }
@@ -134,59 +132,50 @@ Console.WriteLine("6. Exit");
             Console.WriteLine("Please enter a valid number.");
         }
     }
-   else if (choice == "5")
-{
-    Console.Write("Enter search keyword: ");
-    string? keyword = Console.ReadLine();
-
-    if (string.IsNullOrWhiteSpace(keyword))
+    else if (choice == "5")
     {
-        Console.WriteLine("Search keyword cannot be empty.");
-    }
-    else
-    {
-        List<TaskItem> results = tasks
-            .Where(task =>
-                task.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase) ||
-                (!string.IsNullOrWhiteSpace(task.Notes) &&
-                 task.Notes.Contains(keyword, StringComparison.OrdinalIgnoreCase)) ||
-                task.Priority.Contains(keyword, StringComparison.OrdinalIgnoreCase))
-            .ToList();
+        Console.Write("Enter search keyword: ");
+        string? keyword = Console.ReadLine();
 
-        Console.WriteLine();
-        Console.WriteLine("Search Results:");
-
-        if (results.Count == 0)
+        if (string.IsNullOrWhiteSpace(keyword))
         {
-            Console.WriteLine("No matching tasks found.");
+            Console.WriteLine("Search keyword cannot be empty.");
         }
         else
         {
-            foreach (TaskItem task in results)
+            List<TaskItem> results = tasks
+                .Where(task =>
+                    task.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase) ||
+                    (!string.IsNullOrWhiteSpace(task.Notes) &&
+                     task.Notes.Contains(keyword, StringComparison.OrdinalIgnoreCase)) ||
+                    task.Priority.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            Console.WriteLine();
+            Console.WriteLine("Search Results:");
+
+            if (results.Count == 0)
             {
-                string status = task.IsComplete ? "Complete" : "Open";
-
-                Console.WriteLine($"{task.Id}. [{status}] [{task.Priority}] {task.Title}");
-
-                if (!string.IsNullOrWhiteSpace(task.Notes))
+                Console.WriteLine("No matching tasks found.");
+            }
+            else
+            {
+                foreach (TaskItem task in results)
                 {
-                    Console.WriteLine($"   Notes: {task.Notes}");
+                    PrintTask(task);
                 }
-
-                Console.WriteLine($"   Created: {task.CreatedAt}");
             }
         }
     }
-}
-else if (choice == "6")
-{
-    Console.WriteLine("Goodbye.");
-    break;
-}
-else
-{
-    Console.WriteLine("Invalid choice. Try again.");
-}
+    else if (choice == "6")
+    {
+        Console.WriteLine("Goodbye.");
+        break;
+    }
+    else
+    {
+        Console.WriteLine("Invalid choice. Try again.");
+    }
 }
 
 static List<TaskItem> LoadTasks()
@@ -205,17 +194,17 @@ static List<TaskItem> LoadTasks()
 
     List<TaskItem>? savedTasks = JsonSerializer.Deserialize<List<TaskItem>>(json);
 
-if (savedTasks is null)
-{
-    return new List<TaskItem>();
-}
+    if (savedTasks is null)
+    {
+        return new List<TaskItem>();
+    }
 
-foreach (TaskItem task in savedTasks)
-{
-    task.Priority = NormalizePriority(task.Priority);
-}
+    foreach (TaskItem task in savedTasks)
+    {
+        task.Priority = NormalizePriority(task.Priority);
+    }
 
-return savedTasks;
+    return savedTasks;
 }
 
 static void SaveTasks(List<TaskItem> tasks)
@@ -228,6 +217,22 @@ static void SaveTasks(List<TaskItem> tasks)
     string json = JsonSerializer.Serialize(tasks, options);
 
     File.WriteAllText(FileName, json);
+}
+
+static DateTime? ParseDueDate(string? input)
+{
+    if (string.IsNullOrWhiteSpace(input))
+    {
+        return null;
+    }
+
+    if (DateTime.TryParse(input, out DateTime dueDate))
+    {
+        return dueDate;
+    }
+
+    Console.WriteLine("Invalid due date. No due date was saved.");
+    return null;
 }
 
 static string NormalizePriority(string? priority)
@@ -262,6 +267,25 @@ static string NormalizePriority(string? priority)
     return "Medium";
 }
 
+static void PrintTask(TaskItem task)
+{
+    string status = task.IsComplete ? "Complete" : "Open";
+
+    Console.WriteLine($"{task.Id}. [{status}] [{task.Priority}] {task.Title}");
+
+    if (task.DueDate.HasValue)
+    {
+        Console.WriteLine($"   Due: {task.DueDate.Value.ToShortDateString()}");
+    }
+
+    if (!string.IsNullOrWhiteSpace(task.Notes))
+    {
+        Console.WriteLine($"   Notes: {task.Notes}");
+    }
+
+    Console.WriteLine($"   Created: {task.CreatedAt}");
+}
+
 public class TaskItem
 {
     public int Id { get; set; }
@@ -271,6 +295,8 @@ public class TaskItem
     public string? Notes { get; set; }
 
     public string Priority { get; set; } = "Medium";
+
+    public DateTime? DueDate { get; set; }
 
     public bool IsComplete { get; set; }
 
