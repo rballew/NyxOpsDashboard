@@ -31,10 +31,7 @@ while (true)
         Console.Write("Enter priority (Low, Medium, High, Urgent): ");
         string? priority = Console.ReadLine();
 
-       if (string.IsNullOrWhiteSpace(priority))
-      {
-    priority = "Medium";
-}    
+       priority = NormalizePriority(priority);
 
         if (!string.IsNullOrWhiteSpace(title))
         {
@@ -176,6 +173,38 @@ static void SaveTasks(List<TaskItem> tasks)
     string json = JsonSerializer.Serialize(tasks, options);
 
     File.WriteAllText(FileName, json);
+}
+
+static string NormalizePriority(string? priority)
+{
+    if (string.IsNullOrWhiteSpace(priority))
+    {
+        return "Medium";
+    }
+
+    string cleanedPriority = priority.Trim().ToLower();
+
+    if (cleanedPriority == "low")
+    {
+        return "Low";
+    }
+
+    if (cleanedPriority == "medium")
+    {
+        return "Medium";
+    }
+
+    if (cleanedPriority == "high")
+    {
+        return "High";
+    }
+
+    if (cleanedPriority == "urgent")
+    {
+        return "Urgent";
+    }
+
+    return "Medium";
 }
 
 public class TaskItem
