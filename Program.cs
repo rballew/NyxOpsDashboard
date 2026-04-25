@@ -28,16 +28,25 @@ while (true)
         Console.Write("Enter notes: ");
         string? notes = Console.ReadLine();
 
+        Console.Write("Enter priority (Low, Medium, High, Urgent): ");
+        string? priority = Console.ReadLine();
+
+       if (string.IsNullOrWhiteSpace(priority))
+      {
+    priority = "Medium";
+}    
+
         if (!string.IsNullOrWhiteSpace(title))
         {
             TaskItem newTask = new TaskItem
-            {
-                Id = tasks.Count == 0 ? 1 : tasks.Max(task => task.Id) + 1,
-                Title = title,
-                Notes = notes,
-                IsComplete = false,
-                CreatedAt = DateTime.Now
-            };
+{
+    Id = tasks.Count == 0 ? 1 : tasks.Max(task => task.Id) + 1,
+    Title = title,
+    Notes = notes,
+    Priority = priority,
+    IsComplete = false,
+    CreatedAt = DateTime.Now
+};
 
             tasks.Add(newTask);
             SaveTasks(tasks);
@@ -64,7 +73,7 @@ while (true)
             {
                 string status = task.IsComplete ? "Complete" : "Open";
 
-                Console.WriteLine($"{task.Id}. [{status}] {task.Title}");
+                Console.WriteLine($"{task.Id}. [{status}] [{task.Priority}] {task.Title}");
 
                 if (!string.IsNullOrWhiteSpace(task.Notes))
                 {
@@ -176,6 +185,8 @@ public class TaskItem
     public string Title { get; set; } = "";
 
     public string? Notes { get; set; }
+
+    public string Priority { get; set; } = "Medium";
 
     public bool IsComplete { get; set; }
 
