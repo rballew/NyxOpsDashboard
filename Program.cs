@@ -17,7 +17,8 @@ while (true)
     Console.WriteLine("3. Complete task");
     Console.WriteLine("4. Delete task");
     Console.WriteLine("5. Search tasks");
-    Console.WriteLine("6. Exit");
+    Console.WriteLine("6. Edit task");
+    Console.WriteLine("7. Exit");
     Console.Write("Choose an option: ");
 
     string? choice = Console.ReadLine();
@@ -168,6 +169,85 @@ while (true)
         }
     }
     else if (choice == "6")
+    {
+        Console.Write("Enter the task ID to edit: ");
+        string? input = Console.ReadLine();
+
+        if (int.TryParse(input, out int taskId))
+        {
+            TaskItem? task = tasks.Find(task => task.Id == taskId);
+
+            if (task is null)
+            {
+                Console.WriteLine("Task not found.");
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine("Current task:");
+                PrintTask(task);
+
+                Console.Write("New title or leave blank to keep current: ");
+                string? newTitle = Console.ReadLine();
+
+                if (!string.IsNullOrWhiteSpace(newTitle))
+                {
+                    task.Title = newTitle.Trim();
+                }
+
+                Console.Write("New notes, leave blank to keep current, or type clear: ");
+                string? newNotes = Console.ReadLine();
+
+                if (!string.IsNullOrWhiteSpace(newNotes))
+                {
+                    if (newNotes.Trim().Equals("clear", StringComparison.OrdinalIgnoreCase))
+                    {
+                        task.Notes = null;
+                    }
+                    else
+                    {
+                        task.Notes = newNotes.Trim();
+                    }
+                }
+
+                Console.Write("New priority (Low, Medium, High, Urgent) or leave blank to keep current: ");
+                string? newPriority = Console.ReadLine();
+
+                if (!string.IsNullOrWhiteSpace(newPriority))
+                {
+                    task.Priority = NormalizePriority(newPriority);
+                }
+
+                Console.Write("New due date (MM/DD/YYYY), leave blank to keep current, or type clear: ");
+                string? newDueDateInput = Console.ReadLine();
+
+                if (!string.IsNullOrWhiteSpace(newDueDateInput))
+                {
+                    if (newDueDateInput.Trim().Equals("clear", StringComparison.OrdinalIgnoreCase))
+                    {
+                        task.DueDate = null;
+                    }
+                    else
+                    {
+                        DateTime? newDueDate = ParseDueDate(newDueDateInput);
+
+                        if (newDueDate.HasValue)
+                        {
+                            task.DueDate = newDueDate;
+                        }
+                    }
+                }
+
+                SaveTasks(tasks);
+                Console.WriteLine("Task updated and saved.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Please enter a valid number.");
+        }
+    }
+    else if (choice == "7")
     {
         Console.WriteLine("Goodbye.");
         break;
