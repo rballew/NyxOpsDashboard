@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "/THbst2nn+5AIP6nHCu6z/mfZ6Obz57hACBwfgtW/hjdaGdhROw3YFUK63PSbEEctwX7ezBKCP3Nbo9PLmkJ1Q==",
+  "dgSpecHash": "gl849b8qfMw=",
   "success": true,
   "projectFilePath": "C:\\Users\\Alienchelle\\source\\repos\\NyxOpsDashboard\\NyxOpsDashboard.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Alienchelle\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.20\\microsoft.netcore.app.ref.7.0.20.nupkg.sha512",
+    "C:\\Users\\Alienchelle\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.20\\microsoft.windowsdesktop.app.ref.7.0.20.nupkg.sha512",
+    "C:\\Users\\Alienchelle\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.20\\microsoft.aspnetcore.app.ref.7.0.20.nupkg.sha512",
+    "C:\\Users\\Alienchelle\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\7.0.20\\microsoft.netcore.app.host.win-x64.7.0.20.nupkg.sha512"
+  ],
   "logs": []
 }

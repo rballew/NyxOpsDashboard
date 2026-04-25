@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
 
-List<TaskItem> tasks = new();
+const string FileName = "tasks.json";
+
+List<TaskItem> tasks = LoadTasks();
 
 while (true)
 {
@@ -28,7 +32,7 @@ while (true)
         {
             TaskItem newTask = new TaskItem
             {
-                Id = tasks.Count + 1,
+                Id = tasks.Count == 0 ? 1 : tasks.Max(task => task.Id) + 1,
                 Title = title,
                 Notes = notes,
                 IsComplete = false,
@@ -36,7 +40,9 @@ while (true)
             };
 
             tasks.Add(newTask);
-            Console.WriteLine("Task added.");
+            SaveTasks(tasks);
+
+            Console.WriteLine("Task added and saved.");
         }
         else
         {
@@ -76,12 +82,14 @@ while (true)
 
         if (int.TryParse(input, out int taskId))
         {
-            TaskItem? task = tasks.Find(t => t.Id == taskId);
+            TaskItem? task = tasks.Find(task => task.Id == taskId);
 
             if (task is not null)
             {
                 task.IsComplete = true;
-                Console.WriteLine("Task marked complete.");
+                SaveTasks(tasks);
+
+                Console.WriteLine("Task marked complete and saved.");
             }
             else
             {
@@ -100,12 +108,14 @@ while (true)
 
         if (int.TryParse(input, out int taskId))
         {
-            TaskItem? task = tasks.Find(t => t.Id == taskId);
+            TaskItem? task = tasks.Find(task => task.Id == taskId);
 
             if (task is not null)
             {
                 tasks.Remove(task);
-                Console.WriteLine("Task deleted.");
+                SaveTasks(tasks);
+
+                Console.WriteLine("Task deleted and saved.");
             }
             else
             {
@@ -126,6 +136,37 @@ while (true)
     {
         Console.WriteLine("Invalid choice. Try again.");
     }
+}
+
+static List<TaskItem> LoadTasks()
+{
+    if (!File.Exists(FileName))
+    {
+        return new List<TaskItem>();
+    }
+
+    string json = File.ReadAllText(FileName);
+
+    if (string.IsNullOrWhiteSpace(json))
+    {
+        return new List<TaskItem>();
+    }
+
+    List<TaskItem>? savedTasks = JsonSerializer.Deserialize<List<TaskItem>>(json);
+
+    return savedTasks ?? new List<TaskItem>();
+}
+
+static void SaveTasks(List<TaskItem> tasks)
+{
+    JsonSerializerOptions options = new JsonSerializerOptions
+    {
+        WriteIndented = true
+    };
+
+    string json = JsonSerializer.Serialize(tasks, options);
+
+    File.WriteAllText(FileName, json);
 }
 
 public class TaskItem
