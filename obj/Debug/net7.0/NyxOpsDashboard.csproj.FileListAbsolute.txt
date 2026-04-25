@@ -1,0 +1,14 @@
+C:\Users\Alienchelle\source\repos\NyxOpsDashboard\bin\Debug\net7.0\NyxOpsDashboard.exe
+C:\Users\Alienchelle\source\repos\NyxOpsDashboard\bin\Debug\net7.0\NyxOpsDashboard.deps.json
+C:\Users\Alienchelle\source\repos\NyxOpsDashboard\bin\Debug\net7.0\NyxOpsDashboard.runtimeconfig.json
+C:\Users\Alienchelle\source\repos\NyxOpsDashboard\bin\Debug\net7.0\NyxOpsDashboard.dll
+C:\Users\Alienchelle\source\repos\NyxOpsDashboard\bin\Debug\net7.0\NyxOpsDashboard.pdb
+C:\Users\Alienchelle\source\repos\NyxOpsDashboard\obj\Debug\net7.0\NyxOpsDashboard.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Alienchelle\source\repos\NyxOpsDashboard\obj\Debug\net7.0\NyxOpsDashboard.AssemblyInfoInputs.cache
+C:\Users\Alienchelle\source\repos\NyxOpsDashboard\obj\Debug\net7.0\NyxOpsDashboard.AssemblyInfo.cs
+C:\Users\Alienchelle\source\repos\NyxOpsDashboard\obj\Debug\net7.0\NyxOpsDashboard.csproj.CoreCompileInputs.cache
+C:\Users\Alienchelle\source\repos\NyxOpsDashboard\obj\Debug\net7.0\NyxOpsDashboard.dll
+C:\Users\Alienchelle\source\repos\NyxOpsDashboard\obj\Debug\net7.0\refint\NyxOpsDashboard.dll
+C:\Users\Alienchelle\source\repos\NyxOpsDashboard\obj\Debug\net7.0\NyxOpsDashboard.pdb
+C:\Users\Alienchelle\source\repos\NyxOpsDashboard\obj\Debug\net7.0\NyxOpsDashboard.genruntimeconfig.cache
+C:\Users\Alienchelle\source\repos\NyxOpsDashboard\obj\Debug\net7.0\ref\NyxOpsDashboard.dll
